@@ -4,6 +4,8 @@ interface Env {
   ADMIN_USERNAME: string;
   ADMIN_PASSWORD_HASH: string;
   APP_URL: string;
+  SUPABASE_URL: string;
+  SUPABASE_ANON_KEY: string;
   MONNIFY_API_KEY: string | null;
   MONNIFY_SECRET_KEY: string | null;
   MONNIFY_CONTRACT_CODE: string | null;
@@ -34,6 +36,8 @@ export function env(): Env {
     ADMIN_USERNAME: required("ADMIN_USERNAME"),
     ADMIN_PASSWORD_HASH: required("ADMIN_PASSWORD_HASH"),
     APP_URL: process.env.APP_URL || "http://localhost:3000",
+    SUPABASE_URL: required("SUPABASE_URL"),
+    SUPABASE_ANON_KEY: required("SUPABASE_ANON_KEY"),
     MONNIFY_API_KEY: process.env.MONNIFY_API_KEY || null,
     MONNIFY_SECRET_KEY: process.env.MONNIFY_SECRET_KEY || null,
     MONNIFY_CONTRACT_CODE: process.env.MONNIFY_CONTRACT_CODE || null,

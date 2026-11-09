@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getOrderByReference } from "@/lib/orders";
 import { formatNaira } from "@/lib/money";
+import { PurchaseEvent } from "@/components/PurchaseEvent";
 
 export default async function PayCallbackPage({ searchParams }: { searchParams: Promise<{ reference?: string }> }) {
   const { reference } = await searchParams;
@@ -14,6 +15,7 @@ export default async function PayCallbackPage({ searchParams }: { searchParams: 
     <div className="mx-auto mt-10 max-w-sm space-y-3 text-center">
       {order.status === "paid" ? (
         <>
+          <PurchaseEvent valueNaira={order.total_kobo / 100} orderReference={order.reference} />
           <p className="text-3xl">🎉</p>
           <h1 className="text-lg font-extrabold text-stone-900">Order confirmed</h1>
           <p className="text-sm text-stone-500">

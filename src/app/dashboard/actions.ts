@@ -1,8 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { setDeliveryFees, type DeliveryFee } from "@/lib/store-settings";
+import { setDeliveryFees, setPixelIds, type DeliveryFee } from "@/lib/store-settings";
 import { createProduct } from "@/lib/products";
+import { uploadProductImage, UploadError } from "@/lib/storage";
 
 export async function saveDeliveryFeesAction(formData: FormData): Promise<void> {
   const locations = formData.getAll("location") as string[];
@@ -24,15 +25,18 @@ export async function addProductAction(_prevState: string | null, formData: Form
   const description = String(formData.get("description") || "").trim();
   const priceNaira = Number(formData.get("priceNaira"));
   const stockRaw = String(formData.get("stock") || "").trim();
-  const imagesRaw = String(formData.get("images") || "");
-  const images = imagesRaw
-    .split("\n")
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const files = formData.getAll("images").filter((f): f is File => f instanceof File && f.size > 0);
 
   if (!name) return "Give the product a name";
   if (!Number.isFinite(priceNaira) || priceNaira <= 0) return "Enter a valid price";
-  if (images.length === 0) return "Add at least one image URL";
+  if (files.length === 0) return "Add at least one image";
+
+  let images: string[];
+  try {
+    images = await Promise.all(files.map(uploadProductImage));
+  } catch (err) {
+    return err instanceof UploadError ? err.message : "Image upload failed — please try again";
+  }
 
   await createProduct({
     name,
@@ -44,4 +48,12 @@ export async function addProductAction(_prevState: string | null, formData: Form
   revalidatePath("/dashboard/products");
   revalidatePath("/");
   return null;
+}
+
+export async function savePixelIdsAction(formData: FormData): Promise<void> {
+  const metaPixelId = String(formData.get("metaPixelId") || "").trim();
+  const snapPixelId = String(formData.get("snapPixelId") || "").trim();
+  await setPixelIds({ metaPixelId: metaPixelId || null, snapPixelId: snapPixelId || null });
+  revalidatePath("/dashboard");
+  revalidatePath("/", "layout");
 }

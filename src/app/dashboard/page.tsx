@@ -1,7 +1,7 @@
 import { listOrders } from "@/lib/orders";
 import { getStoreSettings } from "@/lib/store-settings";
 import { formatNaira } from "@/lib/money";
-import { saveDeliveryFeesAction } from "./actions";
+import { saveDeliveryFeesAction, savePixelIdsAction } from "./actions";
 
 export default async function DashboardOverviewPage() {
   const [orders, settings] = await Promise.all([listOrders(), getStoreSettings()]);
@@ -55,6 +55,30 @@ export default async function DashboardOverviewPage() {
               Save
             </button>
           </div>
+        </form>
+      </div>
+
+      <div className="card">
+        <h2 className="mb-1 text-sm font-extrabold text-stone-900">Ad pixels</h2>
+        <p className="mb-4 text-xs text-stone-500">
+          Tracks page views site-wide and a Purchase event when an order is confirmed paid. Leave blank to turn one off.
+        </p>
+        <form action={savePixelIdsAction} className="space-y-3">
+          <div>
+            <label className="label" htmlFor="metaPixelId">
+              Meta Pixel ID
+            </label>
+            <input id="metaPixelId" name="metaPixelId" defaultValue={settings.meta_pixel_id ?? ""} placeholder="e.g. 1234567890123456" className="input" />
+          </div>
+          <div>
+            <label className="label" htmlFor="snapPixelId">
+              Snapchat Pixel ID
+            </label>
+            <input id="snapPixelId" name="snapPixelId" defaultValue={settings.snap_pixel_id ?? ""} placeholder="e.g. a1b2c3d4-e5f6-7890-abcd-ef1234567890" className="input" />
+          </div>
+          <button type="submit" className="btn text-sm">
+            Save
+          </button>
         </form>
       </div>
     </div>

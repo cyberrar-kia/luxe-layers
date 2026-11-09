@@ -37,10 +37,10 @@ export function AddProductForm() {
       </div>
       <div>
         <label className="label" htmlFor="images">
-          Image URLs (one per line)
+          Photos
         </label>
-        <textarea id="images" name="images" required rows={3} className="input" placeholder="https://…" />
-        <p className="mt-1 text-xs text-stone-500">Images only — no video, to keep the store fast to load.</p>
+        <input id="images" name="images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple required className="input" />
+        <p className="mt-1 text-xs text-stone-500">Images only (JPEG, PNG, WEBP or GIF, up to 8MB each) — no video, to keep the store fast to load.</p>
       </div>
       <button type="submit" disabled={pending} className="btn">
         {pending ? "Adding…" : "Add product"}
