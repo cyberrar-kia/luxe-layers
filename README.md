@@ -27,11 +27,12 @@ code change needed.
 Use Supabase's connection pooler (Supavisor), not the direct `db.<ref>.supabase.co`
 host — the direct host only resolves to an IPv6 address, which Vercel's build/
 runtime network can't reach (`ENETUNREACH`). The pooler username is
-`<role>.<project-ref>`, not just the role name.
-
+`<role>.<project-ref>`, not just the role name. Also use `sslmode=no-verify`,
+not `require` — Supabase's pooler cert chain fails Node's default strict
+verification (`SELF_SIGNED_CERT_IN_CHAIN`) otherwise.
 
 ```
-DATABASE_URL=postgresql://luxe_layers_app.<ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres?sslmode=require
+DATABASE_URL=postgresql://luxe_layers_app.<ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres?sslmode=no-verify
 SESSION_SECRET=<random>
 ADMIN_PASSWORD_HASH=<bcrypt hash — see scripts/hash-password.ts>
 APP_URL=https://<deployed-domain>
