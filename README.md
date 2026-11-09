@@ -24,8 +24,14 @@ code change needed.
 
 ## Environment variables
 
+Use Supabase's connection pooler (Supavisor), not the direct `db.<ref>.supabase.co`
+host — the direct host only resolves to an IPv6 address, which Vercel's build/
+runtime network can't reach (`ENETUNREACH`). The pooler username is
+`<role>.<project-ref>`, not just the role name.
+
+
 ```
-DATABASE_URL=postgresql://luxe_layers_app:<password>@db.<ref>.supabase.co:5432/postgres?sslmode=require
+DATABASE_URL=postgresql://luxe_layers_app.<ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres?sslmode=require
 SESSION_SECRET=<random>
 ADMIN_PASSWORD_HASH=<bcrypt hash — see scripts/hash-password.ts>
 APP_URL=https://<deployed-domain>
