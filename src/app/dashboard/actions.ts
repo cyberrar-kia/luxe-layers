@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { setDeliveryFees, setPixelIds, type DeliveryFee } from "@/lib/store-settings";
+import { setDeliveryFees, setPixelIds, setStoreDetails, type DeliveryFee } from "@/lib/store-settings";
 import { createProduct } from "@/lib/products";
 import { uploadProductImage, UploadError } from "@/lib/storage";
 
@@ -48,6 +48,15 @@ export async function addProductAction(_prevState: string | null, formData: Form
   revalidatePath("/dashboard/products");
   revalidatePath("/");
   return null;
+}
+
+export async function saveStoreDetailsAction(formData: FormData): Promise<void> {
+  const businessName = String(formData.get("businessName") || "").trim();
+  const tagline = String(formData.get("tagline") || "").trim();
+  if (!businessName || !tagline) return;
+  await setStoreDetails({ businessName, tagline });
+  revalidatePath("/dashboard");
+  revalidatePath("/", "layout");
 }
 
 export async function savePixelIdsAction(formData: FormData): Promise<void> {

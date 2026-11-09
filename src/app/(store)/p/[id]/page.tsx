@@ -14,7 +14,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const soldOut = product.stock !== null && product.stock <= 0;
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2">
+    <div className="mx-auto grid max-w-5xl gap-6 px-4 py-8 sm:grid-cols-2">
       <div className="space-y-3">
         <div className="relative aspect-square overflow-hidden rounded-2xl bg-stone-100">
           {product.images[0] ? (

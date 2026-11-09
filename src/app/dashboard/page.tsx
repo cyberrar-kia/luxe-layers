@@ -1,7 +1,7 @@
 import { listOrders } from "@/lib/orders";
 import { getStoreSettings } from "@/lib/store-settings";
 import { formatNaira } from "@/lib/money";
-import { saveDeliveryFeesAction, savePixelIdsAction } from "./actions";
+import { saveDeliveryFeesAction, savePixelIdsAction, saveStoreDetailsAction } from "./actions";
 
 export default async function DashboardOverviewPage() {
   const [orders, settings] = await Promise.all([listOrders(), getStoreSettings()]);
@@ -24,6 +24,28 @@ export default async function DashboardOverviewPage() {
           <p className="text-xs font-semibold uppercase text-stone-500">Revenue</p>
           <p className="mt-1 text-2xl font-extrabold text-midnight">{formatNaira(revenueKobo)}</p>
         </div>
+      </div>
+
+      <div className="card">
+        <h2 className="mb-1 text-sm font-extrabold text-stone-900">Store details</h2>
+        <p className="mb-4 text-xs text-stone-500">Shown on the storefront's homepage hero.</p>
+        <form action={saveStoreDetailsAction} className="space-y-3">
+          <div>
+            <label className="label" htmlFor="businessName">
+              Store name
+            </label>
+            <input id="businessName" name="businessName" defaultValue={settings.business_name} required className="input" />
+          </div>
+          <div>
+            <label className="label" htmlFor="tagline">
+              Tagline
+            </label>
+            <input id="tagline" name="tagline" defaultValue={settings.tagline} required className="input" />
+          </div>
+          <button type="submit" className="btn text-sm">
+            Save
+          </button>
+        </form>
       </div>
 
       <div className="card">

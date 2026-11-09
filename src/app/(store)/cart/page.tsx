@@ -9,7 +9,7 @@ export default function CartPage() {
 
   if (lines.length === 0) {
     return (
-      <div className="card mt-10 text-center">
+      <div className="card mx-auto mt-10 max-w-lg px-4 text-center">
         <p className="font-semibold text-stone-800">Your cart is empty.</p>
         <Link href="/" className="btn mt-4 inline-flex">
           Continue shopping
@@ -19,7 +19,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg space-y-4">
+    <div className="mx-auto max-w-lg space-y-4 px-4 py-8">
       <h1 className="text-lg font-extrabold text-stone-900">Your cart</h1>
       <div className="card divide-y divide-stone-100 p-0">
         {lines.map((l) => (
