@@ -1,6 +1,7 @@
 interface Env {
   DATABASE_URL: string;
   SESSION_SECRET: string;
+  ADMIN_USERNAME: string;
   ADMIN_PASSWORD_HASH: string;
   APP_URL: string;
   MONNIFY_API_KEY: string | null;
@@ -30,6 +31,7 @@ export function env(): Env {
   cached = {
     DATABASE_URL: required("DATABASE_URL"),
     SESSION_SECRET: required("SESSION_SECRET"),
+    ADMIN_USERNAME: required("ADMIN_USERNAME"),
     ADMIN_PASSWORD_HASH: required("ADMIN_PASSWORD_HASH"),
     APP_URL: process.env.APP_URL || "http://localhost:3000",
     MONNIFY_API_KEY: process.env.MONNIFY_API_KEY || null,

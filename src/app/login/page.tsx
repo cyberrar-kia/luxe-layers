@@ -12,10 +12,16 @@ export default function LoginPage() {
       <form action={formAction} className="card space-y-4">
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">{error}</p>}
         <div>
+          <label className="label" htmlFor="username">
+            Username
+          </label>
+          <input id="username" name="username" required autoFocus className="input" />
+        </div>
+        <div>
           <label className="label" htmlFor="password">
             Password
           </label>
-          <input id="password" name="password" type="password" required autoFocus className="input" />
+          <input id="password" name="password" type="password" required className="input" />
         </div>
         <button type="submit" disabled={pending} className="btn w-full">
           {pending ? "Signing in…" : "Sign in"}

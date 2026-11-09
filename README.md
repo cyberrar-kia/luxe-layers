@@ -34,6 +34,7 @@ verification (`SELF_SIGNED_CERT_IN_CHAIN`) otherwise.
 ```
 DATABASE_URL=postgresql://luxe_layers_app.<ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres?sslmode=no-verify
 SESSION_SECRET=<random>
+ADMIN_USERNAME=<username>
 ADMIN_PASSWORD_HASH=<bcrypt hash — see scripts/hash-password.ts>
 APP_URL=https://<deployed-domain>
 MONNIFY_API_KEY=
@@ -44,5 +45,6 @@ MONNIFY_BASE_URL=https://sandbox.monnify.com   # https://api.monnify.com once li
 
 ## Admin
 
-Single admin account, no sign-up flow — the password is set once via
-`ADMIN_PASSWORD_HASH`. Log in at `/login`, dashboard at `/dashboard`.
+Single admin account, no sign-up flow — username is `ADMIN_USERNAME`,
+password is set once via `ADMIN_PASSWORD_HASH` (see `scripts/hash-password.ts`
+to regenerate it). Log in at `/login`, dashboard at `/dashboard`.
